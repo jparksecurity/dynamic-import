@@ -1,10 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { useState, useEffect } from 'react';
 
 export default function App() {
+  const [Component, setComponent] = useState(null);
+
+  useEffect(() => {
+    import('./DynamicComponent').then((module) => {
+      setComponent(module.default);
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      {Component ? <Component /> : <Text>Loading...</Text>}
       <StatusBar style="auto" />
     </View>
   );
